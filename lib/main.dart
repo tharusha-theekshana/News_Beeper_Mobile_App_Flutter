@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:news_beeper/screens/home_screen.dart';
+import 'package:get/get.dart';
 import 'package:news_beeper/screens/splash_screen.dart';
 
+// Controllers
+import 'controllers/internet_connection_controller.dart';
+
 void main() {
+  Get.put(InternetConnectionController());
   runApp(const MyApp());
 }
 
@@ -11,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'News Beeper',
       darkTheme: ThemeData(
           useMaterial3: true,
