@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+import 'package:news_beeper/widgets/latest_news_data.dart';
+
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_drawer.dart';
+
+class NewsDataScreen extends StatefulWidget {
+  const NewsDataScreen({super.key});
+
+  @override
+  State<NewsDataScreen> createState() => _NewsDataScreenState();
+}
+
+class _NewsDataScreenState extends State<NewsDataScreen> {
+  late double _deviceHeight,_deviceWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: CustomAppBar(),
+      drawer: CustomDrawer(),
+      body: RefreshIndicator(
+        onRefresh: _onRefresh,
+        color: Theme.of(context).dividerColor,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.03),
+            child: Column(
+              children: [
+                  LatestNewsData(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onRefresh() async {
+    print("Data refreshed!");
+  }
+}

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:news_beeper/controllers/news_controller.dart';
 import 'package:news_beeper/screens/home_screen.dart';
 
 import '../utils/app_colors.dart';
@@ -21,6 +22,8 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _glowAnimation;
 
   bool _isConnected = true;
+
+  final newsController = Get.put(NewsController());
 
   @override
   void initState() {
@@ -47,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _startConnectionCheck() {
-    _connectionTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _connectionTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _checkInternetConnection();
     });
   }
@@ -61,6 +64,9 @@ class _SplashScreenState extends State<SplashScreen>
       });
 
       if (_isConnected) {
+        // Load latest news
+        await newsController.getLatestNews();
+
         _connectionTimer.cancel();
         Get.off(const HomeScreen());
       }
