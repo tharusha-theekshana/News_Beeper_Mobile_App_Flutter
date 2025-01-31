@@ -12,7 +12,9 @@ class NewsDataScreen extends StatefulWidget {
 }
 
 class _NewsDataScreenState extends State<NewsDataScreen> {
-  late double _deviceHeight,_deviceWidth;
+  late double _deviceHeight, _deviceWidth;
+
+  final pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +24,25 @@ class _NewsDataScreenState extends State<NewsDataScreen> {
     return Scaffold(
       appBar: CustomAppBar(),
       drawer: CustomDrawer(),
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        color: Theme.of(context).dividerColor,
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.03),
-            child: Column(
-              children: [
-                  LatestNewsData(),
-              ],
+      body: Container(
+        height: _deviceHeight,
+        child: RefreshIndicator(
+          onRefresh: _onRefresh,
+          color: Theme.of(context).dividerColor,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.03),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      LatestNewsData(),
+                    ],
+                  ),
+
+                ],
+              ),
             ),
           ),
         ),

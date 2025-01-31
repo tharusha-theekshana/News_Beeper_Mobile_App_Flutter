@@ -1,12 +1,12 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_beeper/controllers/bottom_navigation_controller.dart';
 import 'package:news_beeper/controllers/news_controller.dart';
 import 'package:news_beeper/screens/news_data_screen.dart';
-import 'package:news_beeper/widgets/custom_app_bar.dart';
-import 'package:news_beeper/widgets/custom_drawer.dart';
+import 'package:news_beeper/screens/search_screen.dart';
+
 import '../controllers/internet_connection_controller.dart';
+import '../widgets/bottom_navigation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,7 +21,10 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _controller;
   late Animation<double> _glowAnimation;
 
+  final pageController = PageController();
+
   final internetConnectionController = Get.find<InternetConnectionController>();
+  final bottomNavigationController = Get.put(BottomNavigationController());
   final newsController = Get.put(NewsController());
 
   @override
@@ -55,9 +58,29 @@ class _HomeScreenState extends State<HomeScreen>
     return Obx(() {
       return Stack(
         children: [
-          NewsDataScreen(),
+          PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              bottomNavigationController.changeBottomNavigation(currentIndex: index);
+            },
+            children: [
+              NewsDataScreen(),
+              SearchScreen()
+            ],
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: BottomNavigation(
+              deviceHeight: _deviceHeight,
+              deviceWidth: _deviceWidth,
+              pageController: pageController,
+            ),
+          ),
           if (internetConnectionController.isConnected.value == false)
             _showNoInternetAlert(),
+
         ],
       );
     });
