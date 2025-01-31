@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_beeper/widgets/latest_news_data.dart';
 
-import '../widgets/custom_app_bar.dart';
-import '../widgets/custom_drawer.dart';
-
 class NewsDataScreen extends StatefulWidget {
   const NewsDataScreen({super.key});
 
@@ -21,10 +18,7 @@ class _NewsDataScreenState extends State<NewsDataScreen> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: CustomAppBar(),
-      drawer: CustomDrawer(),
-      body: Container(
+    return SizedBox(
         height: _deviceHeight,
         child: RefreshIndicator(
           onRefresh: _onRefresh,
@@ -40,14 +34,12 @@ class _NewsDataScreenState extends State<NewsDataScreen> {
                       LatestNewsData(),
                     ],
                   ),
-
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Future<void> _onRefresh() async {

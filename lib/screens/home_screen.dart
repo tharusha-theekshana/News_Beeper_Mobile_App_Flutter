@@ -4,9 +4,11 @@ import 'package:news_beeper/controllers/bottom_navigation_controller.dart';
 import 'package:news_beeper/controllers/news_controller.dart';
 import 'package:news_beeper/screens/news_data_screen.dart';
 import 'package:news_beeper/screens/search_screen.dart';
+import 'package:news_beeper/widgets/about_app_drawer.dart';
 
 import '../controllers/internet_connection_controller.dart';
 import '../widgets/bottom_navigation.dart';
+import '../widgets/custom_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,35 +57,38 @@ class _HomeScreenState extends State<HomeScreen>
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
 
-    return Obx(() {
-      return Stack(
-        children: [
-          PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              bottomNavigationController.changeBottomNavigation(currentIndex: index);
-            },
-            children: [
-              NewsDataScreen(),
-              SearchScreen()
-            ],
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 40,
-            child: BottomNavigation(
-              deviceHeight: _deviceHeight,
-              deviceWidth: _deviceWidth,
-              pageController: pageController,
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      drawer: AboutAppDrawer(),
+      body: Obx(() {
+        return Stack(
+          children: [
+            PageView(
+              controller: pageController,
+              onPageChanged: (index) {
+                bottomNavigationController.changeBottomNavigation(currentIndex: index);
+              },
+              children: const [
+                NewsDataScreen(),
+                SearchScreen()
+              ],
             ),
-          ),
-          if (internetConnectionController.isConnected.value == false)
-            _showNoInternetAlert(),
-
-        ],
-      );
-    });
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 40,
+              child: BottomNavigation(
+                deviceHeight: _deviceHeight,
+                deviceWidth: _deviceWidth,
+                pageController: pageController,
+              ),
+            ),
+            if (internetConnectionController.isConnected.value == false)
+              _showNoInternetAlert(),
+          ],
+        );
+      }),
+    );
   }
 
   Widget _showNoInternetAlert() {
