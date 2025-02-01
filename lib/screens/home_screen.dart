@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen>
             Positioned(
               left: 0,
               right: 0,
-              bottom: 40,
+              bottom: 20,
               child: BottomNavigation(
                 deviceHeight: _deviceHeight,
                 deviceWidth: _deviceWidth,

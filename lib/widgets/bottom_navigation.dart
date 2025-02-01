@@ -36,7 +36,7 @@ class BottomNavigation extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: BottomNavigationBar(
-            backgroundColor: AppColors.redColor,
+            backgroundColor: AppColors.redColor.withOpacity(0.5),
             type: BottomNavigationBarType.fixed,
             currentIndex: controller.index,
             selectedItemColor: AppColors.whiteColor,

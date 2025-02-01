@@ -29,5 +29,23 @@ class ApiService extends GetConnect implements GetxService{
     }
   }
 
+  // Get news category wise API call
+  Future<List<NewsModel>> getCategoryNews({required String category}) async {
+    try {
+      final response = await http.get(Uri.parse("${dotenv.env['BASE_URL']}/top-headlines?country=us&category=$category&apiKey=${dotenv.env['API_KEY']}"));
+
+      if (response.statusCode == 200) {
+        List data = json.decode(response.body)['articles'];
+        List<NewsModel> news = data.map((e) => NewsModel.fromJson(e)).toList();
+        return news;
+      } else {
+        throw Exception('Failed to load headlines');
+      }
+    } catch (e) {
+      print("Error fetching headlines: $e");
+      return [];
+    }
+  }
+
 }
 

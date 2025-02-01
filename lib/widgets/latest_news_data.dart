@@ -16,7 +16,7 @@ class LatestNewsData extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(right: _deviceHeight * 0.01),
-      height: _deviceHeight * 0.28,
+      height: _deviceHeight * 0.23,
       child: GetBuilder<NewsController>(
           init: NewsController(),
           builder: (controller) {
@@ -25,7 +25,6 @@ class LatestNewsData extends StatelessWidget {
               0,
               newsListLength < 10 ? newsListLength : 10,
             );
-
             return Column(
               children: [
                 topLine(context),
@@ -34,7 +33,7 @@ class LatestNewsData extends StatelessWidget {
                   newsList: firstTenNews,
                   axis: Axis.horizontal,
                   height: _deviceHeight,
-                  width: _deviceWidth * 0.8,
+                  width: _deviceWidth * 0.7,
                 ))
               ],
             );

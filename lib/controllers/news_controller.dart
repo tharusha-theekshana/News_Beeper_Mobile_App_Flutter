@@ -8,6 +8,7 @@ class NewsController extends GetxController{
   ApiService apiService = ApiService();
 
   List<NewsModel> latestNews = [];
+  List<NewsModel> categoryNewsList = [];
 
   var isLoading = false.obs;
 
@@ -19,6 +20,19 @@ class NewsController extends GetxController{
       update();
     }catch(e){
       print(e.toString());
+    }
+  }
+
+  // Get category news
+  Future<List<NewsModel>> getCategoryNews({required String category}) async {
+    try{
+      List<NewsModel> fetchedNewsList  = await apiService.getCategoryNews(category: category);
+      categoryNewsList = fetchedNewsList.where((news) => news.title != "[Removed]").toList();
+      update();
+      return categoryNewsList;
+    }catch(e){
+      print(e.toString());
+      return [];
     }
   }
 
