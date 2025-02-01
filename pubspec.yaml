@@ -60,6 +60,10 @@ dependencies:
   # For .env file config
   flutter_dotenv: ^5.2.1
 
+  #String formating
+  intl: ^0.20.2
+  flutter_tts: ^4.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

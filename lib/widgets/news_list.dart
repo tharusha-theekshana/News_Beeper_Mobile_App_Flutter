@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_beeper/model/news_model.dart';
+import 'package:news_beeper/screens/news_detail_screen.dart';
 
 import '../utils/app_colors.dart';
 
@@ -28,7 +29,7 @@ class NewsList extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return Container();
+                      return NewsDetailScreen(news: news);
                     },
                   ));
                 },
