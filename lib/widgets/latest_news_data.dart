@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_beeper/screens/latest_news_screen.dart';
 import 'package:news_beeper/widgets/news_list.dart';
 
 import '../controllers/news_controller.dart';
-import '../model/news_model.dart';
 import '../utils/app_colors.dart';
 
 class LatestNewsData extends StatelessWidget {
@@ -20,17 +20,12 @@ class LatestNewsData extends StatelessWidget {
       child: GetBuilder<NewsController>(
           init: NewsController(),
           builder: (controller) {
-            int newsListLength = controller.latestNews.length;
-            List<NewsModel> firstTenNews = controller.latestNews.sublist(
-              0,
-              newsListLength < 10 ? newsListLength : 10,
-            );
             return Column(
               children: [
                 topLine(context),
                 Expanded(
                     child: NewsList(
-                  newsList: firstTenNews,
+                  newsList: controller.latestNews,
                   axis: Axis.horizontal,
                   height: _deviceHeight,
                   width: _deviceWidth * 0.7,
@@ -55,7 +50,7 @@ class LatestNewsData extends StatelessWidget {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return Container();
+                    return LatestNewsScreen();
                   },
                 ));
               },

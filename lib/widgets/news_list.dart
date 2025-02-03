@@ -111,7 +111,14 @@ class NewsList extends StatelessWidget {
   // Check image extensions
   bool _isValidImageExtension(String url) {
     final validExtensions = ['.png', '.jpg', '.jpeg'];
-    final fileExtension = url.split('?')[0].toLowerCase();
+    final fileExtension = url.replaceAll(RegExp(r'\?.*$'), '').toLowerCase();
     return validExtensions.any((ext) => fileExtension.endsWith(ext));
+  }
+
+  String _shortenAuthor(String author) {
+    if (author.length > 63) {
+      return author.substring(0, 63) + '...'; // Truncate if longer than 63
+    }
+    return author;
   }
 }
