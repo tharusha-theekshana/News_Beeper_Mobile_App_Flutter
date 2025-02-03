@@ -16,6 +16,10 @@ class LatestNewsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Latest News",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
       body: body(),
@@ -27,12 +31,12 @@ class LatestNewsScreen extends StatelessWidget {
         init: NewsController(),
         builder: (controller) {
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.015),
+            padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.025),
             child: NewsList(
               newsList: controller.latestNews,
               axis: Axis.vertical,
               width: _deviceWidth,
-              height: _deviceHeight * 0.22,
+              height: _deviceHeight * 0.23,
             ),
           );
         });

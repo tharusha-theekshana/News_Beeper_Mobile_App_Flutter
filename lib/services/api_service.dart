@@ -47,5 +47,25 @@ class ApiService extends GetConnect implements GetxService{
     }
   }
 
+  // Get news with search API call
+  Future<List<NewsModel>> getSearchNews({required String searchText}) async {
+    try {
+      final response = await http.get(Uri.parse(
+        "${dotenv.env['BASE_URL']}/everything?q=$searchText&apiKey=${dotenv.env['API_KEY']}",
+      ));
+
+      if (response.statusCode == 200) {
+        List data = json.decode(response.body)['articles'];
+        List<NewsModel> news = data.map((e) => NewsModel.fromJson(e)).toList();
+        return news;
+      } else {
+        throw Exception('Failed to load search news');
+      }
+    } catch (e) {
+      print("Error fetching search news: $e");
+      return [];
+    }
+  }
+
 }
 

@@ -68,8 +68,8 @@ class _HomeScreenState extends State<HomeScreen>
               onPageChanged: (index) {
                 bottomNavigationController.changeBottomNavigation(currentIndex: index);
               },
-              children: const [
-                NewsDataScreen(),
+              children: [
+                const NewsDataScreen(),
                 SearchScreen()
               ],
             ),

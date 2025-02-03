@@ -1,10 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:news_beeper/utils/app_colors.dart';
+import 'package:news_beeper/widgets/custom_search_bar.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+import '../controllers/news_controller.dart';
+import '../model/news_model.dart';
+import '../widgets/news_list.dart';
+
+
+class SearchScreen extends StatefulWidget {
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  late double _deviceHeight, _deviceWidth;
+  final getStorage = GetStorage();
+
+  final newsController = Get.put(NewsController());
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    newsController.searchNews = [];
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    newsController.searchNews = [];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    _deviceHeight = MediaQuery.of(context).size.height;
+    _deviceWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      body: GetBuilder<NewsController>(
+        init: NewsController(),
+        builder: (controller) {
+          return Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: _deviceWidth * 0.02,
+                vertical: _deviceHeight * 0.01),
+            height: _deviceHeight,
+            width: _deviceWidth,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        flex: 9,
+                        child: CustomSearchBar(
+                          onSubmit: (value) =>
+                              controller.getSearchNews(searchText: value),
+                        )),
+                  ],
+                ),
+                Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Expanded(
+                      child: Center(
+                        child: SizedBox(
+                          height: 25.0,
+                          width: 25.0,
+                          child: CircularProgressIndicator(
+                            color: AppColors.redColor,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else if (controller.searchNews.isEmpty) {
+                    return const Expanded(
+                      child: Center(
+                        child: Text("Search ..."),
+                      ),
+                    );
+                  } else {
+                    return Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: _deviceHeight * 0.01,horizontal: _deviceWidth * 0.02),
+                        child: NewsList(
+                          newsList: newsController.searchNews,
+                          axis: Axis.vertical,
+                          width: _deviceWidth,
+                          height: _deviceHeight * 0.23,
+                        ),
+                      ),
+                    );
+                  }
+                }),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

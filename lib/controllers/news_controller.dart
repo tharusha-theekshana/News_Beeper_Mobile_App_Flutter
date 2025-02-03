@@ -9,6 +9,7 @@ class NewsController extends GetxController{
 
   List<NewsModel> latestNews = [];
   List<NewsModel> categoryNewsList = [];
+  List<NewsModel> searchNews = [];
 
   var isLoading = false.obs;
 
@@ -35,6 +36,26 @@ class NewsController extends GetxController{
       return [];
     }
   }
+
+
+  // Get news for search results
+  Future<List<NewsModel>> getSearchNews({required String searchText}) async {
+    try{
+      isLoading(true);
+
+      List<NewsModel> fetchedNewsList = await apiService.getSearchNews(searchText: searchText);
+      searchNews = fetchedNewsList.where((news) => news.title != "[Removed]").toList();
+      update();
+
+      isLoading(false);
+      return searchNews;
+
+    }catch(e){
+      print(e.toString());
+      return [];
+    }
+  }
+
 
 
   @override
