@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_beeper/controllers/bottom_navigation_controller.dart';
@@ -7,6 +9,7 @@ import 'package:news_beeper/screens/search_screen.dart';
 import 'package:news_beeper/widgets/about_app_drawer.dart';
 
 import '../controllers/internet_connection_controller.dart';
+import '../utils/app_colors.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/custom_app_bar.dart';
 
@@ -57,37 +60,42 @@ class _HomeScreenState extends State<HomeScreen>
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      drawer: AboutAppDrawer(),
-      body: Obx(() {
-        return Stack(
-          children: [
-            PageView(
-              controller: pageController,
-              onPageChanged: (index) {
-                bottomNavigationController.changeBottomNavigation(currentIndex: index);
-              },
-              children: [
-                const NewsDataScreen(),
-                SearchScreen()
-              ],
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 20,
-              child: BottomNavigation(
-                deviceHeight: _deviceHeight,
-                deviceWidth: _deviceWidth,
-                pageController: pageController,
+    return WillPopScope(
+      onWillPop: () async {
+        return await _showExitConfirmation();
+      },
+      child: Scaffold(
+        appBar: const CustomAppBar(),
+        drawer: AboutAppDrawer(),
+        body: Obx(() {
+          return Stack(
+            children: [
+              PageView(
+                controller: pageController,
+                onPageChanged: (index) {
+                  bottomNavigationController.changeBottomNavigation(currentIndex: index);
+                },
+                children: [
+                  const NewsDataScreen(),
+                  SearchScreen()
+                ],
               ),
-            ),
-            if (internetConnectionController.isConnected.value == false)
-              _showNoInternetAlert(),
-          ],
-        );
-      }),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 20,
+                child: BottomNavigation(
+                  deviceHeight: _deviceHeight,
+                  deviceWidth: _deviceWidth,
+                  pageController: pageController,
+                ),
+              ),
+              if (internetConnectionController.isConnected.value == false)
+                _showNoInternetAlert(),
+            ],
+          );
+        }),
+      ),
     );
   }
 
@@ -142,5 +150,59 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
     );
+  }
+
+  Future<bool> _showExitConfirmation() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        actionsPadding: const EdgeInsets.all(10.0),
+        title: const Text(
+          'Confirm Exit',
+          style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold),
+        ),
+        content: const Text(
+          'Are you want to exit from the app ?',
+          style: TextStyle(fontSize: 14.0),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'No',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0,
+                color: Theme.of(context).dividerColor
+              ),
+            ),
+          ),
+          Container(
+            width: 58,
+            height: 32,
+            decoration: BoxDecoration(
+              color: AppColors.redColor,
+              borderRadius: BorderRadius.circular(25.0)
+            ),
+            child: TextButton(
+              onPressed: () {
+                exit(0);
+              },
+              child: Text(
+                'Yes',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
+                  color: Theme.of(context).dividerColor
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
   }
 }
