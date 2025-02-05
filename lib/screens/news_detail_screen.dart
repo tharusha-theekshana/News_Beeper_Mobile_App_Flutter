@@ -315,7 +315,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     if (widget.news.author!.isEmpty) {
       return "${widget.news.title}";
     } else {
-      return "${widget.news.title} by ${widget.news.author} + ${widget.news.description}}";
+      return "${widget.news.title} by ${widget.news.author}";
     }
   }
 }

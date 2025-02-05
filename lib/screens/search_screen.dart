@@ -8,7 +8,6 @@ import '../controllers/news_controller.dart';
 import '../model/news_model.dart';
 import '../widgets/news_list.dart';
 
-
 class SearchScreen extends StatefulWidget {
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -18,8 +17,9 @@ class _SearchScreenState extends State<SearchScreen> {
   late double _deviceHeight, _deviceWidth;
   final getStorage = GetStorage();
 
-  final newsController = Get.put(NewsController());
+  final TextEditingController searchController = TextEditingController();
 
+  final newsController = Get.put(NewsController());
 
   @override
   void initState() {
@@ -51,17 +51,43 @@ class _SearchScreenState extends State<SearchScreen> {
             height: _deviceHeight,
             width: _deviceWidth,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     Expanded(
                         flex: 9,
                         child: CustomSearchBar(
+                          controller: searchController,
                           onSubmit: (value) =>
                               controller.getSearchNews(searchText: value),
                         )),
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                searchController.text.isNotEmpty
+                    ? Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: _deviceWidth * 0.02),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              " Search Text : ${searchController.value.text}",
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(fontSize: 13.0),
+                            ),
+                            Text(
+                              "Results : ${newsController.searchNews.length} ",
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(fontSize: 13.0),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(),
                 Obx(() {
                   if (controller.isLoading.value) {
                     return const Expanded(
@@ -85,7 +111,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     return Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            vertical: _deviceHeight * 0.01,horizontal: _deviceWidth * 0.02),
+                            vertical: _deviceHeight * 0.01,
+                            horizontal: _deviceWidth * 0.02),
                         child: NewsList(
                           newsList: newsController.searchNews,
                           axis: Axis.vertical,

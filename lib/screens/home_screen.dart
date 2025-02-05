@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen>
         padding: EdgeInsets.zero,
         width: _deviceWidth,
         height: _deviceHeight,
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withOpacity(0.7),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
