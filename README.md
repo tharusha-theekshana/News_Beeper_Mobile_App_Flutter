@@ -28,8 +28,9 @@ The app supports both light and dark modes, providing a seamless experience for 
 
 3. Run the following commands to regenerate and launch the app:
 
-*   flutter clean
-*   flutter pub get
-*   flutter run
+   *   flutter clean
+   *   flutter pub get
+   *   flutter run
+
 
 Developed By **Tharusha Theekshana**.
