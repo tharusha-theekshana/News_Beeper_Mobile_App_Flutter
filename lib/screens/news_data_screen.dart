@@ -13,6 +13,7 @@ class _NewsDataScreenState extends State<NewsDataScreen> {
   late double _deviceHeight, _deviceWidth;
 
   final pageController = PageController();
+  GlobalKey<RefreshIndicatorState> _refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class _NewsDataScreenState extends State<NewsDataScreen> {
 
     return SizedBox(
       child: RefreshIndicator(
+        key: _refreshKey,
         onRefresh: _onRefresh,
         color: Theme.of(context).dividerColor,
         child: SingleChildScrollView(
@@ -48,6 +50,8 @@ class _NewsDataScreenState extends State<NewsDataScreen> {
   }
 
   Future<void> _onRefresh() async {
-    print("Data refreshed!");
+    setState(() {
+      _refreshKey = GlobalKey<RefreshIndicatorState>();
+    });
   }
 }
