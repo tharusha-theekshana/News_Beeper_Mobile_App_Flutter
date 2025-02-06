@@ -19,5 +19,17 @@ The app supports both light and dark modes, providing a seamless experience for 
 
 **Get Storage:** Persistent storage for user preferences.
 
+## How to Run the App
+
+1. Register at NewsAPI and obtain your API key.
+2. Create a .env file in the project root and add the following line:
+
+   **API_KEY**=your_api_key_here
+
+3. Run the following commands to regenerate and launch the app:
+
+*   flutter clean
+*   flutter pub get
+*   flutter run
 
 Developed By **Tharusha Theekshana**.
