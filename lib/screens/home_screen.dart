@@ -7,6 +7,7 @@ import 'package:news_beeper/controllers/news_controller.dart';
 import 'package:news_beeper/screens/news_data_screen.dart';
 import 'package:news_beeper/screens/search_screen.dart';
 import 'package:news_beeper/widgets/about_app_drawer.dart';
+import 'package:rive_animated_icon/rive_animated_icon.dart';
 
 import '../controllers/internet_connection_controller.dart';
 import '../utils/app_colors.dart';
@@ -112,25 +113,17 @@ class _HomeScreenState extends State<HomeScreen>
             AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
-                return Icon(
-                  Icons.wifi_off,
-                  size: 75,
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .color!
-                      .withOpacity(0.4),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 1.1,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .color!
-                          .withOpacity(_glowAnimation.value),
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
+                return RiveAnimatedIcon(
+                    riveIcon: RiveIcon.wifi,
+                    width: 75,
+                    height: 75,
+                    color: AppColors.redColor,
+                    strokeWidth: 3,
+                    loopAnimation: true,
+                    onTap: () {
+
+                    },
+                    onHover: (value){}
                 );
               },
             ),
@@ -144,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
                   fontFamily: "Quicksand",
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.w700,
-                  color: Theme.of(context).dividerColor),
+                  color: AppColors.redColor),
             )
           ],
         ),

@@ -29,12 +29,16 @@ class CustomSearchBar extends StatelessWidget {
           filled: true,
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
-            borderSide: const BorderSide(
-              width: 1.0
+            borderSide: BorderSide(
+              width: 2.0,
+              color: Theme.of(context).dividerColor
             )
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(
+              color: Theme.of(context).dividerColor
+            )
           ),
           hintText: " Search ...",
           hintStyle: const TextStyle(

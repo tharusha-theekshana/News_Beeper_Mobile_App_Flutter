@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:news_beeper/utils/app_colors.dart';
 import 'package:news_beeper/widgets/custom_search_bar.dart';
+import 'package:rive_animated_icon/rive_animated_icon.dart';
 
 import '../controllers/news_controller.dart';
 import '../model/news_model.dart';
@@ -90,21 +91,36 @@ class _SearchScreenState extends State<SearchScreen> {
                     : Container(),
                 Obx(() {
                   if (controller.isLoading.value) {
-                    return const Expanded(
+                    return Expanded(
                       child: Center(
-                        child: SizedBox(
-                          height: 25.0,
-                          width: 25.0,
-                          child: CircularProgressIndicator(
+                        child: RiveAnimatedIcon(
+                            riveIcon: RiveIcon.search,
+                            width: 50,
+                            height: 50,
                             color: AppColors.redColor,
-                          ),
+                            strokeWidth: 3,
+                            loopAnimation: true,
+                            onTap: () {},
+                            onHover: (value){}
                         ),
                       ),
                     );
                   } else if (controller.searchNews.isEmpty) {
                     return const Expanded(
                       child: Center(
-                        child: Text("Search ..."),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.newspaper_outlined,size: 35,),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("No News Available",style: TextStyle(
+                              fontWeight: FontWeight.w500
+                            ),)
+                          ],
+                        ),
                       ),
                     );
                   } else {

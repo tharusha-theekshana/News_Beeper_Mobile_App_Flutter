@@ -63,8 +63,11 @@ dependencies:
   # String formating
   intl: ^0.20.2
 
-  ## Text reader
+  # Text reader
   flutter_tts: ^4.2.2
+
+  # Animated icons
+  rive_animated_icon: ^2.0.3
 
 dev_dependencies:
   flutter_test:
